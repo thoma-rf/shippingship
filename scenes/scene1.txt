@@ -1,0 +1,10 @@
+Arrived at Surya town, the crew began to unload the ship. including [You].
+But then, [Pol] shouted your name.
+
+[Pol]: Hoi, [cf]. stop unloading and follow me.
+I have a task for you.
+I need you to go to the shop and get some items.
+
+Are have you ever been in this town?
+1) Yes (skip tutorial)
+2) No (will show tutorial for navigation and basic action)

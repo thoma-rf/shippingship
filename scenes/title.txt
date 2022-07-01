@@ -1,0 +1,6 @@
+
+Night Walkers
+
+1) New Game
+2) Load Game
+3) About

@@ -1,0 +1,34 @@
+It was a clear night. You lined up with some other people at the port.
+Waiting for the ship to be harbored on the pier.
+
+As little later after the ship harbored. 
+A big distinguished man came out from the big vessel.
+Walking assertively, and suddenly stopped in front of you.
+
+[Man]: So, you're the new recruit. 
+I am Captain Pol. 
+Before we continue, please tell me your name.
+
+Name? (First Last)
+>
+
+[Pol]: do you know what the job is?
+1) I know, that's why I'm here.   >  [Pol]: Good, so you know what we do. 
+2) I don't know, I just need a job.  
+> 
+
+[Pol]: We hunt cryptids. Creatures of the night. You better firm your buckle.
+
+
+[Pol]: Can you fight?
+1) I can use sword.
+2) I can shoot arrow.
+
+[Pol]: Alright, that is good flair.
+You are now part of the Night Walker. Welcome abroad, bud.
+
+
+Pol then instructed the crew to enter the ship, and shortly after the ship set off. 
+
+
+-- go to scene 1 --
