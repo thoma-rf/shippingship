@@ -1,0 +1,22 @@
+{
+  "name": "nodecli",
+  "version": "1.0.0",
+  "description": "just fooling around",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/thoma-rf/tb-nw.git"
+  },
+  "keywords": [
+    "text"
+  ],
+  "author": "caktho pokokejos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/thoma-rf/tb-nw/issues"
+  },
+  "homepage": "https://gitlab.com/thoma-rf/tb-nw#readme"
+}
