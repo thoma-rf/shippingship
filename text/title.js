@@ -2,8 +2,8 @@ var term = require('terminal-kit').terminal;
 
 term.blue('Night Walkers');
 
-var pick = 
-`\n1) New Game
+var pick =
+	`\n1) New Game
 2) Load Game
 3) About\n`
 
@@ -23,20 +23,18 @@ term.down(1).blue(pick);
 term.green('> ');
 
 term.inputField(
-	
-	function( error , input ) {
-		if(input == 'exit'){
+
+	function (error, input) {
+		if (input == 'exit') {
 			process.exit();
 		}
-		if ( error )
-		{
-			term.red.bold( "\nAn error occurs: " + error + "\n" ) ;
+		if (error) {
+			term.red.bold("\nAn error occurs: " + error + "\n");
 		}
-		else
-		{
-			term.green( "\nYour file is '%s'\n" , input ) ;
+		else {
+			term.green("\nYour file is '%s'\n", input);
 		}
-		
-		
+
+
 	}
-) ;
+);
