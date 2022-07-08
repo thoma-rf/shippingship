@@ -1,126 +1,131 @@
-
+const fs = require('fs');
+const util = require('util');
 var term = require('terminal-kit').terminal;
+var ship1 = require('./data.js').ship1;
 
 
-var main_text =
-    `Night Walkers
+// Convert `fs.readFile()` into a function that takes the
+// same parameters but returns a promise.
+const readFile = util.promisify(fs.readFile);
 
-1) New Game
-2) Load Game
+// You can now use `readFile()` with `await`!
 
- ` ;
+var main_text = 'not init';
+var action = [];
 
-var input = { 'type': 'text' };
-var action =
-{
-    '1': () => {
-        loadScene2();
-        render();
-    },
-    '2': () => {
-        process.exit();
+
+var maindata = {};
+
+async function loadScene(path) {
+    // console.log('reading ' + path);
+    const buf = await readFile(path);
+    try {
+        maindata = JSON.parse(buf.toString('utf-8'));
+        // console.dir(maindata);
+        main_text = maindata.main;
+        action = maindata['action'];
+        render(true);
+    } catch (error) {
+        console.log('reading :' + error);
     }
-
-};
-
-function loadScene2() {
-    main_text =
-        `you are now in the scene 2
-1) exit
-
-` ;
-
-    input = { 'type': 'text' };
-    action = {
-        '1': () => {
-            loadScene2();
-            render();
-        }, '2': () => { term('bye\n'); process.exit() }
-    };
-    // render(true);
-
 }
 
-render(true);
 
+async function main() {
+    loadScene('./scenes/title.json');
+    // render(true);
+}
 
+main();
 
-function render() {
-    term.clear();
-    term(main_text);
-
-    // Exit on y and ENTER key
-    // Ask again on n
+function render(all) {
+    if(all){
+        // term.clear();
+        term(`\n${main_text}\n` );
+    }
+    term.green('> ');
     term.inputField(
         function (error, entry) {
-
             if (entry == 'exit') {
-                term.green("Good bye!\n");
+                term.green("\nGood bye!\n");
                 process.exit();
             }
             else {
                 act = action[entry];
                 if (act == null) {
-                    console.log('n >>>' + entry);
+                    // console.log('n  >>>' + entry);
                     term.red('\nno such bullshit\n');
 
                     term.grabInput(false);
-                    render({}, false);
+                    render(false);
                     // process.exit();
                 } else {
                     term.grabInput(false);
                     // console.log(entry);
                     // console.log(myAct[entry]);
-                    act();
+                    // act();
+                    switch (act.ops) {
+                        case 'term':
+                            term.brightBlue(`\n${act.args}\n`);
+                            render(false);
+                            break;
+                        case 'loadScene':
+                            loadScene(act.args);
+                            break;
+                        case 'openShop':
+                            openShop(act.args,maindata.name);
+                            break;
+                        case 'closeApp':
+                            term.green("\nGood bye!\n");
+                            process.exit();
+
+                        default:
+                            break;
+                    }
                 }
             }
         });
 }
 
-/*
-// function render(data, all) {
-//     if (all) {
-//         term.blue('\n' + main_text);
-//     }
 
+function openShop(items, name) {
+    
+    term(`\nWelcome to ${name} trade post:\n`);
 
-//     typ = input['type'];
-//     switch (typ) {
-//         case 'text':
-//             term.green('> ');
+    term('Our goods:\n');
+    term.brightCyan("--------------------------\n");
+    term.brightCyan("Goods\t\tPrice\n");
+    term.brightCyan("--------------------------\n");
+    
+    for(var k in items){
+        term.brightBlue(`${k}\t\t ${items[k]}\n`);   
+    }
+    term.brightCyan("--------------------------\n");
+    term.green('> ');
+    term.inputField(
+        function (error, entry) {
+            if (entry == 'exit') {
+                term.green("\nGood bye!\n");
+                process.exit();
+            }
+            else {
+            }
+        }
+    );
 
-//             term.inputField(
-//                 function (error, entry) {
-//                     if (error) {
-//                         term.red.bold("\nAn error occurs: " + error + "\n");
-//                     }
-//                     else {
-//                         act = action[entry];
-//                         if (act == null) {
-//                             console.log('n >>>'+entry);
-//                             term.red('\nno such bullshit\n');
+    // term('\nYour cargo:\n');
+    // term.brightCyan("--------------------------\n");
+    // weight = 0;
+    // for(var k in ship1.cargo){
+    //     term.brightBlue(`${k}\t ${ship1.cargo[k]}\n`);   
+    //     weight+=ship1.cargo[k];
+    // }
+    
+    // term.brightCyan("--------------------------\n");
+    // term.brightCyan(`cargo : ${weight} / `);
+    // term.brightBlue(`${ship1.cargo_max} kg\n`);
 
-//                             term.grabInput( false ) ;
-//                             render({}, false);
-//                             // process.exit();
-//                         } else {
-//                             term.grabInput( false ) ;
-//                             // console.log(entry);
-//                             // console.log(myAct[entry]);
-//                             act();
-//                         }
+    
 
-//                     }
-//                 }
-//             );
-//     }
-// }
-*/
+}
 
-
-
-
-
-// term(main_text+'\n');
-
-// console.log('cuk cuk cuk')

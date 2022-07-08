@@ -1,0 +1,7 @@
+{
+    "main": "shipping ship\n 1) start game\n 2) exit",
+    "action":{
+        "1": {"ops":"loadScene","args":"./scenes/town11.json"},
+        "2": {"ops":"closeApp","args":""}   
+    }
+}
