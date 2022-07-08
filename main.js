@@ -109,6 +109,8 @@ function openShop(items, name) {
                 process.exit();
             }
             else {
+                term.green("\nok then!\n");
+                openShop(items, name);
             }
         }
     );
