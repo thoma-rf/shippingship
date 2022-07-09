@@ -1,13 +1,16 @@
 var comms = {
     "help": "shows this help",
     "info": "shows the town info, and available sail routes",
-    "attr": "shows your ship attibutes and cargo",
-    "shop": "enter shop, see item price, then use buy/sell command; ex: buy cinnamon 200",
-    "shipwright": "short: ship; enter shipwright for ship repair or buy repair stocks",
-    "tavern": "enter tavern, allows talk with people with command talk; ex: talk barkeep",
+    "map": "shows map",
+    "status": "shows your status, ship attibutes, and cargo",
+    "stat":"short for status",
+    "shop": "enter shop, see item price, then use buy/sell command; ex: ^Gbuy cinnamon 200",
+    "sw": "enter shipwright for ship repair or buy repair stocks",
+    "tavern": "enter tavern, allows talk with people",
     "sail": "sail to neighboring island; ex: sail rajamas",
     "clear": "clear the screen",
-    "exit": "exit game"
+    "quit": "exit game",
+    "q": "short for quit"
 }
 
 exports.comms = comms;

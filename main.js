@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { type } = require('os');
 const util = require('util');
 var term = require('terminal-kit').terminal;
 var ship1 = require('./data/ship.js').ship1;
@@ -25,6 +26,7 @@ async function loadScene(path) {
         maindata = JSON.parse(buf.toString('utf-8'));
         // console.dir(maindata);
         main_text = maindata.main;
+        ship1.town = maindata.name;
         action = maindata['action'];
         render(true);
         return;
@@ -36,6 +38,7 @@ async function loadScene(path) {
 
 async function main() {
     loadScene('./scenes/title.json');
+    ship1.town = maindata.town;
     // render(true);
 }
 
@@ -76,6 +79,10 @@ function render(all) {
                     case 'openShop':
                         openShop(act.args, maindata.name);
                         break;
+                    case 'openTavern':
+                        showTavern(true, act.args);
+                        break;
+
                     case 'closeApp':
                         term.green("\nGood bye!\n");
                         process.exit();
@@ -89,53 +96,151 @@ function render(all) {
 }
 
 
-function openShop(items, name) {
+function openShop(items, name, nopricing) {
+    if (!nopricing) {
+        term(`\nWelcome to ${name} trade post:\n`);
+        term('Our goods:\n');
+        term.brightCyan("--------------------------\n");
+        term.brightCyan("Goods\t\tPrice\n");
+        term.brightCyan("--------------------------\n");
 
-    term(`\nWelcome to ${name} trade post:\n`);
-
-    term('Our goods:\n');
-    term.brightCyan("--------------------------\n");
-    term.brightCyan("Goods\t\tPrice\n");
-    term.brightCyan("--------------------------\n");
-
-    for (var k in items) {
-        term(`${k}\t\t ${items[k]}\n`);
+        for (var k in items) {
+            term(`${k}\t\t ${items[k]}\n`);
+        }
+        term.brightCyan("--------------------------\n");
+        term("you can ^Gbuy^W, ^Gsell^W, ^Gcargo, ^Wor ^Gexit\n");
     }
-    term.brightCyan("--------------------------\n");
-    term("you can ^Gbuy ^W, ^Gsell ^Wor ^Gexitshop\n");
-    term.green('> ');
+    term.green('shop > ');
     term.inputField(
         function (error, entry) {
-            if (entry == 'exitshop') {
-                term.green("\nGood bye!\n");
+            if (entry == 'exit') {
+                term.green("\nExiting shop, bye!\n");
                 render();
             }
             else {
-                term.green("\nok then!\n");
-                openShop(items, name);
+                var entries = entry.split(" ");
+                if (entry == 'price') {
+                    openShop(items, name, true);
+                    return;
+                } else
+                    if (entry == 'cargo') {
+                        showCargo();
+                    } else {
+                        if (entries[0] == 'buy') {
+                            if (entries.length != 3) {
+                                term('\ninvalid buy\n');
+                                term('example: buy cinnamon 10\n');
+                            }
+                            if (entries[0] == 'buy') {
+                                item_ = entries[1];
+                                qty = entries[2];
+                                price = items[item_];
+                                totPrice = items[item_] * qty;
+
+                                if (isNaN(qty)) {
+                                    term('\ninvalid quantity\n');
+                                    term('example: buy cinnamon 10\n');
+                                    openShop(items, name, true);
+                                    return;
+                                }
+
+                                if (!price) {
+                                    term('\ninvalid buy\n');
+                                    term('no such item\n');
+                                    openShop(items, name, true);
+                                    return;
+                                }
+
+                                if (ship1.coin < totPrice) {
+                                    term(`\nyour coin: ^Y${ship1.coin}  ^W| price: ^R${totPrice}`);
+                                    term('\ninvalid buy\n');
+                                    term('not enough coin\n');
+                                    openShop(items, name, true);
+                                    return;
+                                }
+                                cargoW = 0;
+                                for (ww in ship1.cargo) {
+                                    cargoW += ship1.cargo[ww];
+                                }
+                                cargoW += parseInt(qty);
+                                if (ship1.cargo_max < cargoW) {
+                                    term(`\nyour cargo: ^Y${ship1.coin}  ^W| required: ^R${cargoW}`);
+                                    term('\ninvalid buy\n');
+                                    term('not enough cargo\n');
+                                    openShop(items, name, true);
+                                    return;
+                                }
+                                ship1.cargo[item_] += parseInt(qty);
+                                ship1.coin -= totPrice;
+                                term.green('\nthanks for the purchase\n');
+
+                            } else if (entries[0] == 'sell') {
+
+                            }
+                        }
+                    }
+                openShop(items, name, true);
             }
         }
     );
 }
 
 function proccCommand(entry) {
+    if (!ship1.town) {
+        term("\nplease start the game\n");
+        return;
+    }
     switch (entry) {
         case 'help':
             showHelp();
             break;
-        case 'attr':
-            showCargo();
+        case 'map':
+            showMap();
+            break;
+        case 'status':
+        case 'stat':
+            showStat();
             break;
         case 'clear':
             term.clear();
             break;
-        case 'exit':
+        case 'q':
+        case 'quit':
             term.green("\nGood bye!\n");
             process.exit();
 
         default:
             break;
     }
+}
+
+function showTavern(begin, ppl) {
+    if (begin) {
+        term(`\nEntered ^Y${main.name}^W's tavern. there are:\n`);
+        for (kk in ppl) {
+            term(`${kk}) ${ppl[kk][0]}\n`);
+        }
+        term.blue("-----------------------------\n");
+        term("you can use talk or exit. ex: ^Gtalk 1\n");
+        
+    }
+    term.green('tavern > ');
+        term.inputField(
+            function (error, entry) {
+                entries = entry.split(' ');
+                if (entry == 'exit') {
+                    term.green("\nExiting tavern, bye!\n");
+                    render();
+                    return;
+                }
+                if(entries.length==2 && entries[1]< ppl.length){
+                    term(`\n${ppl[entries[1]][1]}\n`)
+                }else{
+                    term('\ninvalid talk\n');
+                }
+                showTavern(false,ppl)
+            }
+        );
 }
 
 function showHelp() {
@@ -148,23 +253,40 @@ function showHelp() {
     }
     term.table(
         temp,
-        { hasBorder: false }
+        { hasBorder: false, contentHasMarkup: true }
     );
 
 }
 
+function showMap() {
 
+    term(" \n                    ^B3 ------------- ^YTirtamulya ^B--\n                   /                              /\n^YB Asri ^B—-- 2 —— ^YPalawitan  ^B--- 2 -- ^YDanakerta ^B- 1\n      \\                                  /\n       \\                                /\n        \\3-- ^YRajamas ^B--1-- ^YTj Arum ^B- 1 -\n");
+}
+
+function showStat() {
+    term(`\nDay:${ship1.day} in ${ship1.town}`)
+    term(`\n^YCoin:${ship1.coin}`)
+    term('\n^WYour ship:\n');
+    term.brightCyan("--------------------------\n");
+    term(`body\t ${ship1.body}\n`);
+    term(`sail\t ${ship1.sail}\n`);
+    term(`armor\t ${ship1.armor}\n`);
+    term(`gun\t ${ship1.gun}/${ship1.max_gun}\n`);
+    term(`crew\t ${ship1.crew}/${ship1.crew_max}\n`);
+    term.brightCyan("--------------------------\n");
+    showCargo();
+
+}
 function showCargo() {
     term('\nYour cargo:\n');
     term.brightCyan("--------------------------\n");
     weight = 0;
     for (var k in ship1.cargo) {
-        term.brightBlue(`${k}\t ${ship1.cargo[k]}\n`);
+        term(`${k}\t ${ship1.cargo[k]}\n`);
         weight += ship1.cargo[k];
     }
 
     term.brightCyan("--------------------------\n");
-    term.brightCyan(`cargo : ${weight} / `);
-    term.brightBlue(`${ship1.cargo_max} kg\n`);
+    term(`cargo : ${weight} / ${ship1.cargo_max} kg\n`);
 
 }

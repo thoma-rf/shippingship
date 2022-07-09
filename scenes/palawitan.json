@@ -1,5 +1,5 @@
 {
-    "name":"Bandar Asri",
+    "name":"Palawitan",
     "main": "This is town of Bandar Asri, sailors' fav place to break a leg,\nyou can visit shop, tavern, shipwright, or government post\n\nyou can type 'help' to see available command",
 
     "action": {
@@ -17,12 +17,12 @@
         },
         "tavern":{
             "ops": "openTavern",
-            "args":[
-                ["barkeep","Hello there, new lad"],
-                ["bearded man","from here to Rajamas take 2 days sailing"],
-                ["a man and a woman","man: I like sailing rough seas\nwoman: I don't"],
-                ["tough looking guy",""]
-            ]
+            "args":{
+                "barkeep":"Hello there, new lad",
+                "bearded man":"from here to Rajamas take 2 days sailing",
+                "a man and a woman":"",
+                "tough looking guy":""
+            }
         },
         "blacksmith": {
             "repair": {
