@@ -1,18 +1,27 @@
 {
     "name":"Bandar Asri",
-    "main": "This is town 1, sailors' fav place to break a leg,\nyou can visit blacksmith, shop, town square, or government post\n\nyou can type 'help' to see available command",
+    "main": "This is town of Bandar Asri, sailors' fav place to break a leg,\nyou can visit shop, tavern, shipwright, or government post\n\nyou can type 'help' to see available command",
 
     "action": {
         "info":{
             "ops": "term",
             "args": "this is just a message"
         },
-        "trade":{
+        "shop":{
             "ops": "openShop",
             "args":{
                 "item1":300,
                 "item2":300,
                 "item3":300
+            }
+        },
+        "tavern":{
+            "ops": "openTavern",
+            "args":{
+                "barkeep":"Hello there, new lad",
+                "bearded man":"from here to Rajamas take 2 days sailing",
+                "a man and a woman":"",
+                "tough looking guy":""
             }
         },
         "blacksmith": {
