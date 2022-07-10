@@ -156,14 +156,19 @@ function render(all) {
 
 function openShop(items, name, nopricing) {
     if (!nopricing) {
+        
         term(`\nWelcome to ${name} trade post:\n`);
+        term(`\nYour coin: ^Y${ship1.coin} \n`);
         term('Our goods:\n');
         term.brightCyan("--------------------------\n");
         term.brightCyan("Goods\t\tPrice\n");
         term.brightCyan("--------------------------\n");
 
-        for (var k in items) {
-            term(`${k}\t\t ${items[k]}\n`);
+        for (var k in items.main) {
+            term(k);
+            if (k.length < 8)
+                term('\t');
+            term(`\t${items.main[k]}\n`);
         }
         term.brightCyan("--------------------------\n");
 
@@ -193,8 +198,8 @@ function openShop(items, name, nopricing) {
                             if (entries[0] == 'buy') {
                                 item_ = entries[1];
                                 qty = entries[2];
-                                price = items[item_];
-                                totPrice = items[item_] * qty;
+                                price = items.main[item_];
+                                totPrice = price * parseInt(qty);
 
                                 if (isNaN(qty)) {
                                     term('\ninvalid quantity\n');
@@ -229,13 +234,61 @@ function openShop(items, name, nopricing) {
                                     openShop(items, name, true);
                                     return;
                                 }
-                                ship1.cargo[item_] += parseInt(qty);
-                                ship1.coin -= totPrice;
-                                term.green('\nthanks for the purchase\n');
+                                if (!ship1.cargo[item_])
+                                    ship1.cargo[item_] = 0;
+                                ship1.cargo[item_] = ship1.cargo[item_] + parseInt(qty);
+                                // term.yellow('\n'+ship1.coin+' <> '+totPrice+'\n');
+                                ship1.coin = ship1.coin - totPrice;
 
-                            } else if (entries[0] == 'sell') {
+                                term.green('\nthanks for the purchase\n');
+                                term(`remaining coin: ^Y${ship1.coin}\n`);
+
 
                             }
+                        } else if (entries[0] == 'sell') {
+                            item_ = entries[1];
+                            qty = entries[2];
+                            price = items.main[item_];
+                            if (isNaN(price))
+                                price = items.side[item_];
+
+                            if (entries.length != 3) {
+                                term('\ninvalid sell\n');
+                                term('example: sell cocoa 10\n');
+                                return;
+                            }
+
+                            if (isNaN(price) || !ship1.cargo[item_]) {
+                                term('\ninvalid item\n');
+                                term('example: sell cocoa 10\n');
+                                openShop(items, name, true);
+                                return;
+                            }
+
+                            if (isNaN(qty) || ship1.cargo[item_] < qty) {
+                                term('\ninvalid quantity\n');
+                                term('example: sell cocoa 10\n');
+                                openShop(items, name, true);
+                                return;
+                            }
+                            totPrice = price * parseInt(qty);
+                            term(`\nsell ${item_} for ${totPrice} coin? (y/n)\n`);
+                            term.yesOrNo({ yes: ['y', 'ENTER'], no: ['n'] }, function (error, result) {
+
+                                if (result) {
+                                    term.green(`OK, you receive ${totPrice}!\n`);
+                                    ship1.coin += totPrice;
+                                    ship1.cargo[item_] -= parseInt(qty);
+                                    openShop(items, name, true);
+                                    return;
+                                }
+                                else {
+                                    term.red("Not sold\n");
+                                    openShop(items, name, true);
+                                    return;
+                                }
+                            });
+                            return;
                         }
                     }
                 openShop(items, name, true);
@@ -352,26 +405,27 @@ function openPort(routes, noBegin) {
                 return;
             } else if (entries.length == 2 && entries[1] < routes.length) {
                 idx_ = parseInt(entries[1]);
-                term('\nsailing to ' + routes[idx_].name + '...');
+
                 act = routes[idx_].act;
-                console.dir(act);
 
                 totRat = ship1.crew * routes[idx_].time;
-                // check ration 
-                if (ship1.cargo.rations < totRat) {
-                    term.red('\nnot enough ration\n');
-                    term.red(`need, ${totRat}\n`);
+
+                if (ship1.cargo.ration < totRat) {
+                    term('\nnot enough ration\n');
+                    term(`need ^R${totRat} ^Wration(s)\n`);
                     openPort(routes, true);
                     return;
                 }
                 //
                 ship1.day += routes[idx_].time;
                 if (act.ops == 'loadScene') {
+                    term('\nsailing to ' + routes[idx_].name + '...\n');
                     loadScene(act.args);
                 } else {
                     term.red('\nnon tranversable\n');
                     openPort(routes, true);
                 }
+
             } else {
                 term('\ninvalid command\n');
                 openPort(routes, true);
@@ -448,7 +502,13 @@ function showCargo() {
     term.brightCyan("--------------------------\n");
     weight = 0;
     for (var k in ship1.cargo) {
-        term(`${k}\t ${ship1.cargo[k]}\n`);
+        if (ship1.cargo[k]) {
+            term(`${k}`);
+            if (k.length < 8)
+                term(`\t`);
+            term(`\t ${ship1.cargo[k]}\n`);
+        }
+        
         weight += ship1.cargo[k];
     }
 

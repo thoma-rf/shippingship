@@ -74,3 +74,20 @@ question() ;
 // 	// console.log(text[idx++]);
 // 	// process.exit();
 //   });
+
+/*
+ebony	43
+mahogany	53
+	
+tobacco	19
+coffee	18
+cinnamon	13
+	
+cocoa	12
+sugar	15
+copra	10
+	
+linen	27
+silk	28
+silver ore	40
+*/

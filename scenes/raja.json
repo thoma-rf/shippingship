@@ -1,6 +1,6 @@
 {
-    "name": "Bandar Asri",
-    "main": "This is town of Bandar Asri, sailors' fav place to break a leg,\nyou can visit shop, tavern, shipwright, or port.\n\nType 'help' to see available command",
+    "name": "Rajamas",
+    "main": "This is town of Rajamas, a tropical town abundant with cheap agrarian product.\nYou may fetch a good price here. You can visit shop, tavern, shipwright, or tradepost",
     "action": {
         "sw": {
             "ops": "openSw",
@@ -10,17 +10,17 @@
             "ops": "openShop",
             "args": {
                 "main": {
-                    "ebony": 35,
-                    "mahogany": 50,
+                    "cocoa": 12,
+                    "sugar": 15,
+                    "copra": 10,
                     "ration": 10
                 },
                 "side": {
+                    "ebony":43,
+                    "mahogany":53,
                     "tobacco": 18,
                     "coffee": 18,
                     "cinnamon": 12,
-                    "cocoa": 19,
-                    "sugar": 18,
-                    "copra": 13,
                     "linen": 25,
                     "silk": 33,
                     "silver ore": 50
@@ -32,19 +32,15 @@
             "args": [
                 [
                     "Barkeep",
-                    "^YBarkeep^W: Hello there, new lad"
+                    "^YBarkeep^W: Hello, welcome to Rajamas"
                 ],
                 [
-                    "Bearded man",
-                    "^YMan^W: from here to Palawitan take 2 days sailing"
+                    "Drunk man",
+                    "^YMan^W: from here to Tanjung Arum take 2 days sailing"
                 ],
                 [
-                    "A man and a woman",
-                    "YMan^W: I like sailing rough seas\n^YWoman^W: I don't"
-                ],
-                [
-                    "Tough looking guy",
-                    "^YMan^W: ... get lost!"
+                    "Old man",
+                    "YMan^W: We can't sail to Palawitan from here, too many shallow reef"
                 ]
             ]
         },
@@ -52,19 +48,19 @@
             "ops": "port",
             "args": [
                 {
-                    "name": "Palawitan",
-                    "time": 2,
-                    "act": {
-                        "ops": "loadScene",
-                        "args": "./scenes/pala.json"
-                    }
-                },
-                {
-                    "name": "Rajamas",
+                    "name": "B Asri",
                     "time": 3,
                     "act": {
                         "ops": "loadScene",
-                        "args": "./scenes/raja.json"
+                        "args": "./scenes/basri.json"
+                    }
+                },
+                {
+                    "name": "Tj Arum",
+                    "time": 1,
+                    "act": {
+                        "ops": "loadScene",
+                        "args": "./scenes/arum.json"
                     }
                 }
             ]

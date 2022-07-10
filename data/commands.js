@@ -1,6 +1,5 @@
 var comms = {
     "help": "shows this help",
-    "info": "shows the town info, and available sail routes",
     "map": "shows map",
     "status": "shows your status, ship attibutes, and cargo",
     "stat":"short for status",

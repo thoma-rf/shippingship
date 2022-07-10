@@ -11,12 +11,13 @@ var ship1 = {
     
     "coin":2000,
     "cargo":{
-        "item1":2000,
+        "mahogany":2000,
         "ration":0,
+        "cocoa":15,
         "gun":500,
     },
     "task":[
-        "Deliver 2000 item1 to Tirtamulya bedore day 7",
+        "Deliver 2000 mahogany to Tirtamulya bedore day 7",
         "Comeback to Bandar Asri at Day 20",
         "While at it, do trades to gain as much profit as possible"
     ],
