@@ -43,16 +43,17 @@ async function tell(lines, idx) {
         term(lines[idx++]);
         term("\n\n^Gpress a key >");
         if (idx == lines.length - 1) {
+            term.deleteLine();
             term.removeAllListeners();
             term.grabInput(false);
-            setTimeout(function () {
+            // setTimeout(function () {
                 act = lines[idx];
                 if (act.ops == 'loadScene')
                     loadScene(act.args);
                 else {
                     process.exit();
                 }
-            }, 1000);
+            // }, 1000);
 
         }
     });
@@ -61,7 +62,8 @@ async function tell(lines, idx) {
 
 
 async function loadScene(path) {
-    // console.log('reading ' + path);
+    
+    
     const buf = await readFile(path);
     try {
         maindata = JSON.parse(buf.toString('utf-8'));
@@ -69,7 +71,14 @@ async function loadScene(path) {
         main_text = maindata.main;
         ship1.town = maindata.name;
         action = maindata['action'];
+        if(ship1.town){
+        term.bold.brightBlue('Entering ' + ship1.town+".. \n");
+        setTimeout(function(){
+            render(true);
+        },1000);
+    }else{
         render(true);
+    }
         return;
     } catch (error) {
         console.log('reading :' + error);
@@ -126,7 +135,9 @@ function render(all) {
                     case 'openTavern':
                         showTavern(true, act.args);
                         break;
-
+                    case 'port':
+                        showPort(act.args);
+                        break;
                     case 'closeApp':
                         term.green("\nGood bye!\n");
                         process.exit();
@@ -256,6 +267,45 @@ function proccCommand(entry) {
         default:
             break;
     }
+}
+
+function showPort(routes,noBegin) {
+    if (!noBegin) {
+        term(`\nPrepare to sail from ^Y${main.name}^W. available routes:\n`);
+        var idx = 0;
+        for (kk in routes) {
+            term(`${idx++}) ${routes[kk].name} \t${routes[kk].time} day(s)\n`);
+        }
+        term.blue("-----------------------------\n");
+        term("you can use sail or exit. ex: ^B sail 1\n");
+
+    }
+    term.green('port > ');
+    term.inputField(
+        function (error, entry) {
+            entries = entry.split(' ');
+            if (entry == 'exit') {
+                term.green("\nExiting port, bye!\n");
+                render();
+                return;
+            }else if(entries.length == 2 && entries[1] < routes.length){
+                idx_ = parseInt(entries[1]) ;
+                term('\nsailing to '+ routes[idx_].name+'...');
+                act = routes[idx_].act;
+                console.dir(act);
+                ship1.day += routes[idx_].time;
+                if(act.ops == 'loadScene'){
+                    loadScene(act.args);
+                }else {
+                    term.red('\nnon tranversable\n');
+                    showPort(routes,true);
+                }
+            }else{
+                term('\ninvalid command\n');
+                showPort(routes,true);
+            }
+        }
+    );
 }
 
 function showTavern(begin, ppl) {

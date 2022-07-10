@@ -1,6 +1,6 @@
 {
     "name":"Palawitan",
-    "main": "This is town of Bandar Asri, sailors' fav place to break a leg,\nyou can visit shop, tavern, shipwright, or government post\n\nyou can type 'help' to see available command",
+    "main": "This is town of Palawitan, a tropical town abundant with cheap agrarian product.\nYou may fetch a good price here. You can visit shop, tavern, shipwright, or tradepost",
 
     "action": {
         "info":{
