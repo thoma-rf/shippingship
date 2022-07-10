@@ -1,6 +1,6 @@
 {
-    "name": "Palawitan",
-    "main": "This is town of Palawitan, a quiet town with tobacco plantation and cheap coffee",
+    "name": "Tirtamulya",
+    "main": "This is town of Tirtamulya, a very expensive city, one can make a fortune by selling any goods",
     "action": {
         "sw": {
             "ops": "openSw",
@@ -10,20 +10,20 @@
             "ops": "openShop",
             "args": {
                 "main": {
-                    "tobacco": 15,
-                    "coffee": 15,
-                    "cinnamon": 10,
-                    "ration": 10
+                    "ebony": 50,
+                    "mahogany": 58,
+                    "tobacco": 22,
+                    "coffee": 23,
+                    "cinnamon": 18,
+                    "cocoa": 21,
+                    "sugar": 22,
+                    "silk": 28,
+                    "ration": 12
                 },
                 "side": {
-                    "ebony": 40,
-                    "mahogany": 53,
-                    "cocoa": 18,
-                    "sugar": 19,
-                    "copra": 12,
-                    "linen": 29,
-                    "silk": 30,
-                    "silver ore": 45
+                    "copra": 19,
+                    "linen": 27,
+                    "silver ore": 40
                 }
             }
         },
@@ -32,11 +32,11 @@
             "args": [
                 [
                     "Barkeep",
-                    "^YBarkeep^W: Hello, welcome to Palawitan"
+                    "^YBarkeep^W: Hello, welcome to Tirtamulya"
                 ],
                 [
                     "Drunk man",
-                    "^YMan^W: arm your ship, some pirate often seen in these water"
+                    "^YMan^W: Arm your ship, some pirate often seen in these water"
                 ],
                 [
                     "Old man",
@@ -49,18 +49,18 @@
             "args": [
                 {
                     "name": "Danakerta",
-                    "time": 2,
+                    "time": 1,
                     "act": {
                         "ops": "loadScene",
                         "args": "./scenes/dana.json"
                     }
                 },
                 {
-                    "name": "Tirtamulya",
+                    "name": "Palawitan",
                     "time": 3,
                     "act": {
                         "ops": "loadScene",
-                        "args": "./scenes/tirta.json"
+                        "args": "./scenes/pala.json"
                     }
                 }
             ]

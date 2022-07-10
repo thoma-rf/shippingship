@@ -1,6 +1,6 @@
 {
     "name": "Rajamas",
-    "main": "This is town of Rajamas, a tropical town abundant with cheap agrarian product.\nYou may fetch a good price here. You can visit shop, tavern, shipwright, or tradepost",
+    "main": "This is town of Rajamas, a tropical town abundant with agrarian product.\nYou may fetch a good price here. You can visit shop, tavern, shipwright, or tradepost",
     "action": {
         "sw": {
             "ops": "openSw",
@@ -13,7 +13,8 @@
                     "cocoa": 12,
                     "sugar": 15,
                     "copra": 10,
-                    "ration": 10
+                    "ration": 10,
+                    "silver ore": 50
                 },
                 "side": {
                     "ebony":43,
@@ -22,8 +23,7 @@
                     "coffee": 18,
                     "cinnamon": 12,
                     "linen": 25,
-                    "silk": 33,
-                    "silver ore": 50
+                    "silk": 33
                 }
             }
         },

@@ -1,0 +1,62 @@
+{
+    "name": "Tanjung Arum",
+    "main": "This is town of Tanjung Arum, looks a lot like  Danakerta, but more quiet and cheap",
+    "action": {
+        "sw": {
+            "ops": "openSw",
+            "args": "this is just a message"
+        },
+        "shop": {
+            "ops": "openShop",
+            "args": {
+                "main": {
+                    "linen": 25,
+                    "silk": 25,
+                    "silver ore": 30,
+                    "ration": 13
+                },
+                "side": {
+                    "mahogany": 53,
+                    "tobacco": 19,
+                    "coffee": 18,
+                    "cinnamon": 13,
+                    "sugar": 19,
+                    "copra": 12,
+
+                    "ebony": 43,
+                    "cocoa": 18
+                }
+            }
+        },
+        "tavern": {
+            "ops": "openTavern",
+            "args": [
+                [
+                    "Barkeep",
+                    "^YBarkeep^W: Hello, lad. It's quiet around here"
+                ]
+            ]
+        },
+        "port": {
+            "ops": "port",
+            "args": [
+                {
+                    "name": "Rajamas  ",
+                    "time": 1,
+                    "act": {
+                        "ops": "loadScene",
+                        "args": "./scenes/raja.json"
+                    }
+                },
+                {
+                    "name": "Danakerta",
+                    "time": 1,
+                    "act": {
+                        "ops": "loadScene",
+                        "args": "./scenes/dana.json"
+                    }
+                }
+            ]
+        }
+    }
+}

@@ -420,6 +420,7 @@ function openPort(routes, noBegin) {
                 ship1.day += routes[idx_].time;
                 if (act.ops == 'loadScene') {
                     term('\nsailing to ' + routes[idx_].name + '...\n');
+                    ship1.cargo.ration-= totRat;
                     loadScene(act.args);
                 } else {
                     term.red('\nnon tranversable\n');

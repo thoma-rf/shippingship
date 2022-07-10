@@ -1,6 +1,6 @@
 {
-    "name": "Palawitan",
-    "main": "This is town of Palawitan, a quiet town with tobacco plantation and cheap coffee",
+    "name": "Danakerta",
+    "main": "This is town of Danakerta, looks a lot like  Tj Arum, but more expensive",
     "action": {
         "sw": {
             "ops": "openSw",
@@ -10,18 +10,18 @@
             "ops": "openShop",
             "args": {
                 "main": {
-                    "tobacco": 15,
-                    "coffee": 15,
-                    "cinnamon": 10,
-                    "ration": 10
+                    "ebony": 43,
+                    "cocoa": 18,
+                    "linen": 29,
+                    "ration": 13
                 },
                 "side": {
-                    "ebony": 40,
                     "mahogany": 53,
-                    "cocoa": 18,
+                    "tobacco": 19,
+                    "coffee": 18,
+                    "cinnamon": 13,
                     "sugar": 19,
                     "copra": 12,
-                    "linen": 29,
                     "silk": 30,
                     "silver ore": 45
                 }
@@ -32,15 +32,15 @@
             "args": [
                 [
                     "Barkeep",
-                    "^YBarkeep^W: Hello, welcome to Palawitan"
+                    "^YBarkeep^W: Hello, welcome to Danakerta"
                 ],
                 [
-                    "Drunk man",
-                    "^YMan^W: arm your ship, some pirate often seen in these water"
+                    "Young man",
+                    "^YMan^W: You can't sail if your ship is badly damaged"
                 ],
                 [
                     "Old man",
-                    "YMan^W: We can't sail to Rajamas from here, too many shallow reef"
+                    "YMan^W: Danakerta and Tj Arum are used to be twin city"
                 ]
             ]
         },
@@ -48,19 +48,27 @@
             "ops": "port",
             "args": [
                 {
-                    "name": "Danakerta",
+                    "name": "Palawitan",
                     "time": 2,
                     "act": {
                         "ops": "loadScene",
-                        "args": "./scenes/dana.json"
+                        "args": "./scenes/pala.json"
+                    }
+                },
+                {
+                    "name": "Tanjung Arum",
+                    "time": 1,
+                    "act": {
+                        "ops": "loadScene",
+                        "args": "./scenes/arum.json"
                     }
                 },
                 {
                     "name": "Tirtamulya",
-                    "time": 3,
+                    "time": 1,
                     "act": {
                         "ops": "loadScene",
-                        "args": "./scenes/tirta.json"
+                        "args": "./scenes/arum.json"
                     }
                 }
             ]
