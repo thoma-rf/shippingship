@@ -18,6 +18,47 @@ var action = [];
 
 var maindata = {};
 
+async function loadStory(path) {
+    console.log('load story' + path)
+    const buf = await readFile(path);
+    term.grabInput(true);
+    try {
+        var lines = JSON.parse(buf.toString('utf-8'));
+        await tell(lines, 0);
+        // term.grabInput(false) ;
+        return;
+    } catch (error) {
+        console.log('reading :' + error);
+    }
+}
+
+async function tell(lines, idx) { 
+    // console.log('telling');
+
+    term(lines[idx++]);
+    term("\n\n^Gpress a key >");
+    term.on('key', function (name, matches, data) {
+        term.up(1);
+        term.deleteLine();
+        term(lines[idx++]);
+        term("\n\n^Gpress a key >");
+        if (idx == lines.length - 1) {
+            term.removeAllListeners();
+            term.grabInput(false);
+            setTimeout(function () {
+                act = lines[idx];
+                if (act.ops == 'loadScene')
+                    loadScene(act.args);
+                else {
+                    process.exit();
+                }
+            }, 1000);
+
+        }
+    });
+}
+
+
 
 async function loadScene(path) {
     // console.log('reading ' + path);
@@ -72,6 +113,9 @@ function render(all) {
                     case 'term':
                         term.brightBlue(`\n${act.args}\n`);
                         render(false);
+                        break;
+                    case 'loadStory':
+                        loadStory(act.args);
                         break;
                     case 'loadScene':
                         loadScene(act.args);
@@ -222,25 +266,25 @@ function showTavern(begin, ppl) {
         }
         term.blue("-----------------------------\n");
         term("you can use talk or exit. ex: ^Gtalk 1\n");
-        
+
     }
     term.green('tavern > ');
-        term.inputField(
-            function (error, entry) {
-                entries = entry.split(' ');
-                if (entry == 'exit') {
-                    term.green("\nExiting tavern, bye!\n");
-                    render();
-                    return;
-                }
-                if(entries.length==2 && entries[1]< ppl.length){
-                    term(`\n${ppl[entries[1]][1]}\n`)
-                }else{
-                    term('\ninvalid talk\n');
-                }
-                showTavern(false,ppl)
+    term.inputField(
+        function (error, entry) {
+            entries = entry.split(' ');
+            if (entry == 'exit') {
+                term.green("\nExiting tavern, bye!\n");
+                render();
+                return;
             }
-        );
+            if (entries.length == 2 && entries[1] < ppl.length) {
+                term(`\n${ppl[entries[1]][1]}\n`)
+            } else {
+                term('\ninvalid talk\n');
+            }
+            showTavern(false, ppl)
+        }
+    );
 }
 
 function showHelp() {
@@ -290,3 +334,4 @@ function showCargo() {
     term(`cargo : ${weight} / ${ship1.cargo_max} kg\n`);
 
 }
+
