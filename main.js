@@ -293,6 +293,16 @@ function showPort(routes,noBegin) {
                 term('\nsailing to '+ routes[idx_].name+'...');
                 act = routes[idx_].act;
                 console.dir(act);
+
+                totRat = ship1.crew*routes[idx_].time;
+                // check ration 
+                if(ship1.cargo.rations<totRat){
+                    term.red('\nnot enough ration\n');
+                    term.red(`need, ${totRat}\n`);
+                    showPort(routes,true);
+                    return;
+                }
+                //
                 ship1.day += routes[idx_].time;
                 if(act.ops == 'loadScene'){
                     loadScene(act.args);

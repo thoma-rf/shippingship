@@ -51,7 +51,7 @@
                     "time": 3,
                     "act": {
                         "ops": "loadScene",
-                        "args": "./scenes/pala.json"
+                        "args": "./scenes/raja.json"
                     }
                 }
             ]
