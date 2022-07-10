@@ -6,17 +6,29 @@
             "ops": "term",
             "args": "this is just a message"
         },
-        "sw":{
+        "sw": {
             "ops": "openSw",
             "args": "this is just a message"
         },
         "shop": {
             "ops": "openShop",
             "args": {
-                "item1": 200,
-                "item2": 300,
-                "item3": 300,
-                "ration": 10
+                "main": {
+                    "ebony": 35,
+                    "mahogany": 50,
+                    "ration": 10
+                },
+                "side": {
+                    "tobacco": 18,
+                    "coffee": 18,
+                    "cinnamon": 12,
+                    "cocoa": 19,
+                    "sugar": 18,
+                    "copra": 13,
+                    "linen": 25,
+                    "silk": 33,
+                    "silver ore": 50
+                }
             }
         },
         "tavern": {
