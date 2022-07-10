@@ -48,6 +48,14 @@
             "ops": "port",
             "args": [
                 {
+                    "name": "Bandar Asri",
+                    "time": 2,
+                    "act": {
+                        "ops": "loadScene",
+                        "args": "./scenes/basri.json"
+                    }
+                },
+                {
                     "name": "Danakerta",
                     "time": 2,
                     "act": {

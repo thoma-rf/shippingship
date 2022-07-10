@@ -1,0 +1,9 @@
+[
+    "\nAs we were going to land, 10 men waited for us",
+    "^BBearded man^W: You bring 2000 goods?",
+    "^BI ^W: Yes, you bring the coin?",
+    "^BBearded man^W: Of course",
+    "^BI ^W: OK, we good",
+    "then we unload the cargo, and break a leg in the town of Tirtamulya...",
+    {"ops":"loadScene","args":"./scenes/tirta.json"}
+]

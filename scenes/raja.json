@@ -48,7 +48,7 @@
             "ops": "port",
             "args": [
                 {
-                    "name": "B Asri",
+                    "name": "Bandar Asri",
                     "time": 3,
                     "act": {
                         "ops": "loadScene",
@@ -56,7 +56,7 @@
                     }
                 },
                 {
-                    "name": "Tj Arum",
+                    "name": "Tanjung Arum",
                     "time": 1,
                     "act": {
                         "ops": "loadScene",

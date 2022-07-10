@@ -1,0 +1,14 @@
+[
+    "\nAs we were going to land, the captain waited us at the port",
+    "^BCaptain^W: You came back\n         You sent the goods ",
+    "^BI ^W: Yes",
+    "^BCaptain^W: Alright\n         Let's have a good drink before we go home ",
+    "....             ",
+    "The End",
+    "...              ",
+    "^YThanks for playing",
+    "...              ",
+    "^RGame Over",
+
+    {"ops":"closeApp","args":"ok"}
+]

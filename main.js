@@ -255,6 +255,7 @@ function openShop(items, name, nopricing) {
                             if (entries.length != 3) {
                                 term('\ninvalid sell\n');
                                 term('example: sell cocoa 10\n');
+                                openShop(items, name, true);
                                 return;
                             }
 
@@ -421,7 +422,32 @@ function openPort(routes, noBegin) {
                 if (act.ops == 'loadScene') {
                     term('\nsailing to ' + routes[idx_].name + '...\n');
                     ship1.cargo.ration-= totRat;
-                    loadScene(act.args);
+                    //late
+                    if(ship1.day>20){
+                        loadStory("./scenes/story21.json");
+                        return;
+                    }
+                    //evt1
+                    if(routes[idx_].name == 'Tirtamulya'&&
+                    ship1.status ==0 && 
+                    ship1.day<=7){
+                        if(ship1.cargo['mahogany']>=2000){
+                        ship1.status = 1;
+                        ship1.cargo['mahogany']-=2000;
+                        loadStory("./scenes/story1.json");
+                        }else{
+                            loadStory("./scenes/story11.json");
+                        }
+                    } else if(routes[idx_].name == 'Bandar Asri'&&
+                    ship1.status ==1 && 
+                    ship1.day==20){
+                        ship1.status = 2;
+                        loadStory("./scenes/story2.json");
+                    }
+                    else{
+                        loadScene(act.args);
+                    }
+                    
                 } else {
                     term.red('\nnon tranversable\n');
                     openPort(routes, true);

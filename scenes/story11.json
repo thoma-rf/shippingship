@@ -1,0 +1,13 @@
+[
+    "\nAs we were going to land, 100 men waited for us",
+    "^BBearded man^W: You bring 2000 goods?",
+    "^BI ^W: No, I affraid not",
+    "^BBearded man^W: OK",
+    "Suddenly they open fire at us, at point blank",
+    "....             ",
+    "We Died          ",
+    "...              ",
+    "^RGame Over",
+
+    {"ops":"closeApp","args":"ok"}
+]

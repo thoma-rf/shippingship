@@ -1,5 +1,5 @@
 var ship1 = {
-    "day": 1,
+    "day": 14,
     "body": 78,
     "sail": 80,
     "armor": 0,
@@ -12,7 +12,7 @@ var ship1 = {
     "coin":2000,
     "cargo":{
         "mahogany":2000,
-        "ration":0,
+        "ration":1000,
         "cocoa":15,
         "gun":500,
     },
@@ -21,7 +21,7 @@ var ship1 = {
         "Comeback to Bandar Asri at Day 20",
         "While at it, do trades to gain as much profit as possible"
     ],
-    "status":0,
+    "status":1,
     "town":""
 }
 
