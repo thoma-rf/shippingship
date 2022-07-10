@@ -19,7 +19,7 @@ var action = [];
 var maindata = {};
 
 async function loadStory(path) {
-    console.log('load story' + path)
+    // console.log('load story' + path)
     const buf = await readFile(path);
     term.grabInput(true);
     try {
@@ -32,7 +32,7 @@ async function loadStory(path) {
     }
 }
 
-async function tell(lines, idx) { 
+async function tell(lines, idx) {
     // console.log('telling');
 
     term(lines[idx++]);
@@ -47,12 +47,12 @@ async function tell(lines, idx) {
             term.removeAllListeners();
             term.grabInput(false);
             // setTimeout(function () {
-                act = lines[idx];
-                if (act.ops == 'loadScene')
-                    loadScene(act.args);
-                else {
-                    process.exit();
-                }
+            act = lines[idx];
+            if (act.ops == 'loadScene')
+                loadScene(act.args);
+            else {
+                process.exit();
+            }
             // }, 1000);
 
         }
@@ -62,8 +62,8 @@ async function tell(lines, idx) {
 
 
 async function loadScene(path) {
-    
-    
+
+
     const buf = await readFile(path);
     try {
         maindata = JSON.parse(buf.toString('utf-8'));
@@ -71,14 +71,14 @@ async function loadScene(path) {
         main_text = maindata.main;
         ship1.town = maindata.name;
         action = maindata['action'];
-        if(ship1.town){
-        term.bold.brightBlue('Entering ' + ship1.town+".. \n");
-        setTimeout(function(){
+        if (ship1.town) {
+            term.bold.brightBlue('Entering ' + ship1.town + ".. \n");
+            setTimeout(function () {
+                render(true);
+            }, 1000);
+        } else {
             render(true);
-        },1000);
-    }else{
-        render(true);
-    }
+        }
         return;
     } catch (error) {
         console.log('reading :' + error);
@@ -129,6 +129,9 @@ function render(all) {
                     case 'loadScene':
                         loadScene(act.args);
                         break;
+                    case 'openSw':
+                        openSw();
+                        break;
                     case 'openShop':
                         openShop(act.args, maindata.name);
                         break;
@@ -136,7 +139,7 @@ function render(all) {
                         showTavern(true, act.args);
                         break;
                     case 'port':
-                        showPort(act.args);
+                        openPort(act.args);
                         break;
                     case 'closeApp':
                         term.green("\nGood bye!\n");
@@ -163,6 +166,7 @@ function openShop(items, name, nopricing) {
             term(`${k}\t\t ${items[k]}\n`);
         }
         term.brightCyan("--------------------------\n");
+
         term("you can ^Gbuy^W, ^Gsell^W, ^Gcargo, ^Wor ^Gexit\n");
     }
     term.green('shop > ');
@@ -269,7 +273,65 @@ function proccCommand(entry) {
     }
 }
 
-function showPort(routes,noBegin) {
+function openSw(noBegin) {
+    rsail = (100 - ship1.sail) * 3;
+    rbody = (100 - ship1.body) * 5;
+    rarmor = (100 - ship1.body) * 8;
+    if (!noBegin) {
+        term(`\nWelcome to ^Y${main.name}^W shipwright\n`);
+        term.blue("Repair \t \t   Price\n");
+        term.blue("----------------------------------\n");
+        term('1) repair sail\t\t' + rsail + "\n");
+        term('2) repair body\t\t' + rbody + "\n");
+        term('3) apply armor\t\t' + rarmor + "\n");
+        term.blue("----------------------------------\n");
+        term("pick your repair, or ^Bexit\n");
+
+    }
+    term.green('shipwright > ');
+    term.inputField(
+        function (error, entry) {
+
+            if (entry == 'exit') {
+                term.green("\nExiting shipwright, bye!\n");
+                render();
+                return;
+            }
+            if (entry == '1') {
+                if (ship1.coin < rsail) {
+                    term('\nnot enough coin\n');
+                } else {
+                    term('\nsail repaired!\n');
+                    ship1.coin -= rsail;
+                    ship1.sail = 100;
+                }
+
+            } else if (entry == '2') {
+                if (ship1.coin < rbody) {
+                    term('\nnot enough coin\n');
+                } else {
+                    term('\nbody repaired!\n');
+                    ship1.coin -= rbody;
+                    ship1.body = 100;
+                }
+            } else if (entry == '3') {
+                if (ship1.coin < rarmor) {
+                    term('\nnot enough coin\n');
+                } else {
+                    term('\narmor installed!\n');
+                    ship1.coin -= rarmor;
+                    ship1.armor = 100;
+                }
+            } else {
+                term('\ninvalid command\n');
+
+            }
+            openSw(true);
+        }
+    );
+}
+
+function openPort(routes, noBegin) {
     if (!noBegin) {
         term(`\nPrepare to sail from ^Y${main.name}^W. available routes:\n`);
         var idx = 0;
@@ -288,31 +350,31 @@ function showPort(routes,noBegin) {
                 term.green("\nExiting port, bye!\n");
                 render();
                 return;
-            }else if(entries.length == 2 && entries[1] < routes.length){
-                idx_ = parseInt(entries[1]) ;
-                term('\nsailing to '+ routes[idx_].name+'...');
+            } else if (entries.length == 2 && entries[1] < routes.length) {
+                idx_ = parseInt(entries[1]);
+                term('\nsailing to ' + routes[idx_].name + '...');
                 act = routes[idx_].act;
                 console.dir(act);
 
-                totRat = ship1.crew*routes[idx_].time;
+                totRat = ship1.crew * routes[idx_].time;
                 // check ration 
-                if(ship1.cargo.rations<totRat){
+                if (ship1.cargo.rations < totRat) {
                     term.red('\nnot enough ration\n');
                     term.red(`need, ${totRat}\n`);
-                    showPort(routes,true);
+                    openPort(routes, true);
                     return;
                 }
                 //
                 ship1.day += routes[idx_].time;
-                if(act.ops == 'loadScene'){
+                if (act.ops == 'loadScene') {
                     loadScene(act.args);
-                }else {
+                } else {
                     term.red('\nnon tranversable\n');
-                    showPort(routes,true);
+                    openPort(routes, true);
                 }
-            }else{
+            } else {
                 term('\ninvalid command\n');
-                showPort(routes,true);
+                openPort(routes, true);
             }
         }
     );

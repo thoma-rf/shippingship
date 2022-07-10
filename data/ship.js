@@ -1,21 +1,26 @@
 var ship1 = {
     "day": 1,
-    "body": 100,
-    "sail": 100,
+    "body": 78,
+    "sail": 80,
     "armor": 0,
     "gun": 5,
     "max_gun": 10,
     "cargo_max": 3000,
-    "crew": 30,
+    "crew": 23,
     "crew_max": 30,
     
-    "coin":500,
+    "coin":2000,
     "cargo":{
         "item1":2000,
-        "rations":0,
+        "ration":0,
         "gun":500,
     },
-    "task":[],
+    "task":[
+        "Deliver 2000 item1 to Tirtamulya bedore day 7",
+        "Comeback to Bandar Asri at Day 20",
+        "While at it, do trades to gain as much profit as possible"
+    ],
+    "status":0,
     "town":""
 }
 
